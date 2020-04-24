@@ -1,25 +1,25 @@
-if(NOT TARGET ChoreographConfig)
+if(NOT TARGET Choreograph)
     # Define ${Cinder-Notifications_PROJECT_ROOT}. ${CMAKE_CURRENT_LIST_DIR} is just the current directory.
-    get_filename_component(ChoreographConfig_PROJECT_ROOT "${CMAKE_CURRENT_LIST_DIR}/../.." ABSOLUTE)
+    get_filename_component(Choreograph_PROJECT_ROOT "{local choreograph root folder path}" ABSOLUTE)
 
     # Define ${CINDER_PATH} as usual.
-    get_filename_component(CINDER_PATH "${ChoreographConfig_PROJECT_ROOT}/../.." ABSOLUTE)
+    get_filename_component(CINDER_PATH "{local cinder root folder path}" ABSOLUTE)
 
     # Make a list of source files and define that to be ${SOURCE_LIST}.
     file(GLOB SOURCE_LIST CONFIGURE_DEPENDS
-            "${ChoreographConfig_PROJECT_ROOT}/src/choreograph/specialization/Choreograph.h"
-            "${ChoreographConfig_PROJECT_ROOT}/src/choreograph/specialization/Timeline.cpp"
-            "${ChoreographConfig_PROJECT_ROOT}/src/choreograph/specialization/Timeline.h"
+            "${Choreograph_PROJECT_ROOT}/src/choreograph/*.hpp"
+            "${Choreograph_PROJECT_ROOT}/src/choreograph/*.h"
+            "${Choreograph_PROJECT_ROOT}/src/choreograph/*.cpp"
             )
 
     # Create the library!
-    add_library(ChoreographConfig ${SOURCE_LIST})
+    add_library(Choreograph ${SOURCE_LIST})
 
     # Add include directories.
-    # Notice that `cinderblock.xml` has `<includePath>src</includePath>`.
+    # Notice that `cinderblock.xml` has `src`.
     # So you need to set `../../src/` to include.
-    target_include_directories(ChoreographConfig PUBLIC "${ChoreographConfig_PROJECT_ROOT}/src" )
-    target_include_directories(ChoreographConfig SYSTEM BEFORE PUBLIC "${CINDER_PATH}/include" )
+    target_include_directories(Choreograph PUBLIC "${Choreograph_PROJECT_ROOT}/src" )
+    target_include_directories(Choreograph SYSTEM BEFORE PUBLIC "${CINDER_PATH}/include" )
 
 
     # If your Cinder block has no source code but instead pre-build libraries,
@@ -33,6 +33,6 @@ if(NOT TARGET ChoreographConfig)
                 "${CINDER_PATH}/${CINDER_LIB_DIRECTORY}"
                 "$ENV{CINDER_PATH}/${CINDER_LIB_DIRECTORY}")
     endif()
-    target_link_libraries(ChoreographConfig PRIVATE cinder)
+    target_link_libraries(Choreograph PRIVATE cinder)
 
 endif()
